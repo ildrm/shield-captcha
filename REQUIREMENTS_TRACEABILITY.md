@@ -12,8 +12,8 @@ The identifiers and complete acceptance conditions are preserved in the [product
 | PROD-05, ABUSE-04 | Partial | Scoped general and API assessments, fixed-window controls and tenant-isolated event history. Customer middleware adapters and advanced quotas remain. |
 | PROD-06, ABUSE-05 | Partial | Subject-based transaction velocity and a review decision. Transaction context, case handling, and reports remain. |
 | PROD-07, PROD-08, ABUSE-06 | Partial | Per-site automation credentials, declared/registered classification, and configurable registered-only enforcement. Crawlers, agent identity verification, and gateway policies remain. |
-| PROD-09, DOC-01–02, SDK-01 | Partial | `/docs/v1`, `/playground`, JavaScript/TypeScript and PHP packages, PHP consumer and OpenAPI/Postman. Remaining docs search, feature reference, migration, Laravel/Node/React/Vue/Next.js, Python/Go/Java/.NET/Ruby/Rust and mobile targets. |
-| PROD-10 | Partial | Shared hosting ZIP, organization boundaries, basic roles and audit. Advanced entitlements, team workflows, policy, SSO, SLA and enterprise support remain. |
+| PROD-09, DOC-01–02, SDK-01 | Partial | `/docs/v1`, `/playground`, JavaScript/TypeScript widget, PHP and Node.js verifier packages, PHP consumer and OpenAPI/Postman. Docs search and more framework, language, and mobile targets remain. |
+| PROD-10 | Partial | Shared hosting ZIP, organization boundaries, invitation and ownership workflows, scoped policies, fixed verification entitlements, and audit. Expanded entitlements, SSO, SLA and enterprise support remain. |
 | Website §3 | Partial | Localized homepage, quick start, playground, releases, security and real readiness status in `resources/views/site`. Additional products/solutions, pricing, editorial/legal pages, search and metadata remain. |
 | IAM-01 | Partial | Registration, email verification, login, password flows, TOTP and recovery baseline. Central session controls, real SMTP and complete localization remain. |
 | IAM-02 | Partial | Organization-based Filament access, production DNS TXT, exact site origin, membership roles, invitations and ownership transfer. Enterprise federation remains. |
@@ -25,7 +25,7 @@ The identifiers and complete acceptance conditions are preserved in the [product
 | CUST-01–04 | Partial | Customer tenant/site onboarding, overview counts, exact origin/actions, DNS and key actions. Guided checklist and advanced filters/expiry remain. |
 | CUST-05–06 | Partial | Site challenge-mode control and protection policy editing. Full widget designer and richer rule composition remain. |
 | CUST-07–09 | Partial | Real per-tenant counts and SMS history; deeper analytics, reports, logs and configurable policy remain. |
-| CUST-10–11 | Pending | Product-specific control panels, alerts and webhook deliveries. |
+| CUST-10–11 | Partial | Protection policy and event pages with recent tenant-local alerts. Additional product views, notification delivery and webhook history remain. |
 | CUST-12 | Partial | Catalog, site actions and quick start; automatic health and migration checklist remain. |
 | CUST-13 | Partial | Audit-backed invite and role lifecycle, ownership transfer and owner-only data export. Enterprise directory and branding remain. |
 | CUST-14 | Partial | Customer plan and gateway choice, immutable invoice terms, quota display and invoice CSV. Invoice notifications remain. |
@@ -48,11 +48,11 @@ The identifiers and complete acceptance conditions are preserved in the [product
 | SEC-01 | Partial | InnoDB replay tests, strict context/scopes, middleware separation, MFA, origin controls, privacy and operator runbook. Independent review and platform hardening remain. |
 | SEC-02 | Pending | Calibrated defensive evaluation, broader accessibility and capacity evidence. |
 | OPS-01–05 | Partial | Bounded request and worker controls, scheduled pruning, heartbeat, readiness, and host and restore runbooks. Quantified capacity, external alerting and richer operational profiles remain. |
-| DEP-01–04 | Partial | `shield:preflight`, cPanel/DirectAdmin guide, shared-host ZIP exercised locally, and core CI definition. Live host verification, VPS profile, SMTP and deployed cron exercise remain. |
+| DEP-01–04 | Partial | `shield:preflight`, `shield:mail-smoke`, cPanel/DirectAdmin guide, shared-host ZIP and scheduler exercised locally, and core CI definition. Live host verification, VPS profile, SMTP and deployed cron exercise remain. |
 | QA-01, QA-02 | Partial | Local assertions, two-origin headless flow, package tests and private MariaDB. All pilot gates are tracked in the source specification. |
 | QA-03 | Pending | Advance each feature independently with a workflow, tests and evidence. |
 | QA-UNIT, QA-API, QA-REPLAY, QA-TENANT | Verified | Core targeted PHPUnit behavior and controlled concurrent solves/consumes against MariaDB. |
-| QA-POLICY, QA-WIDGET, QA-FILAMENT | Partial | Fixed SMS policy, Chromium smoke and Filament scoped tests. More policies, clients, role and setting cases remain. |
+| QA-POLICY, QA-WIDGET, QA-FILAMENT | Partial | Fixed SMS policy, versioned protection and feedback tests, team and billing access tests, and Chromium managed and manual flows. More browser, assistive technology and product cases remain. |
 | QA-BILL | Partial | Tenant boundaries, duplicate checkout and callbacks, plan snapshots, quota windows, provider failure/recovery and sandbox isolation in fixture tests. Actual merchant sandbox and live host verification remain. |
 | QA-LOAD | Pending | Authorized capacity suite. |
 | QA-DATA, QA-SEC | Partial | Schema, cleanup, replay, authorization and controlled download assertions. Wider hardening and suite remain. |

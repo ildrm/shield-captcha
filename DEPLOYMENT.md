@@ -21,6 +21,8 @@ Build an upload ZIP from a reviewed checkout with `node scripts/build-releases.m
    php artisan config:cache
    ```
 
+   To exercise the configured delivery transport, run `php artisan shield:mail-smoke YOUR_TEST_INBOX` and confirm receipt in an inbox you control. Then test the actual customer verification email on the deployed host.
+
 5. In **Cron Jobs**, use the path to the same PHP version selected for the site. This runs the scheduled bounded cleanup and retention tasks. Check that **Scheduled jobs** in the operator dashboard shows a recent heartbeat. Review `cron.log` for individual command failures and establish a log rotation policy.
 
    ```cron

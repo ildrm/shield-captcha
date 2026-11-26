@@ -7,7 +7,7 @@ Use Shield's server assessment API to apply limits to sensitive operations such 
 1. Create a sandbox site in the customer panel and register the actions to assess. A production site must pass DNS ownership verification.
 2. In the site's **Credentials** action, issue a **Risk assessments and feedback** key. Store it on the integrating server.
 3. Open **Protection policies** for the organization. Select the site and action, set the time window and request limits, and publish in **Observe** mode. Each publication creates a new version. Existing assessment replays retain the version and outcome they originally received.
-4. Use **Protection events** to review the enforced and hypothetical decisions. Verify expected behavior in sandbox, then publish **Enforce** for the intended site and action. An unconfigured action starts in Observe mode.
+4. Use **Protection events** to review the enforced and hypothetical decisions. Local alerts check up to 250 of the organization's latest assessments from the past hour for repeated velocity flags and abusive feedback. Verify expected behavior in sandbox, then publish **Enforce** for the intended site and action. An unconfigured action starts in Observe mode.
 
 ## Request a decision
 

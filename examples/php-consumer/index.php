@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p role="status"><?= escape($result) ?></p>
     <?php } ?>
     <form method="post">
-        <div data-shield-captcha data-site-key="<?= escape($siteKey) ?>" data-action="<?= $action ?>"></div>
+        <div data-shield-captcha data-site-key="<?= escape($siteKey) ?>" data-action="<?= $action ?>" data-mode="managed"></div>
         <button type="submit">Submit</button>
     </form>
     <noscript>This example requires JavaScript for the challenge.</noscript>

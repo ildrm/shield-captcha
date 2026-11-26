@@ -211,13 +211,14 @@ try {
             });
             assert.equal(fresh.status, 422);
             await page.goto(liveCustomer.href);
-            await page.getByRole('button', { name: 'Verify this request' }).click();
-            await page.getByText('Verified. You can submit the form.').waitFor();
-            const freshToken = await page.locator('input[name="shield-captcha-response"]').inputValue();
-            await Promise.all([
-                page.waitForNavigation(),
-                page.getByRole('button', { name: 'Submit' }).click(),
-            ]);
+            if (process.env.SHIELD_REAL_MANAGED !== '1') {
+                await page.getByRole('button', { name: 'Verify this request' }).click();
+                await page.getByText('Verified. You can submit the form.').waitFor();
+            }
+            const protectedSubmission = page.waitForRequest((request) => request.method() === 'POST' && request.url() === liveCustomer.href);
+            await page.getByRole('button', { name: 'Submit' }).click();
+            const freshToken = new URLSearchParams((await protectedSubmission).postData()).get('shield-captcha-response');
+            assert.match(freshToken, /^[a-f0-9]{64}$/);
             await page.getByText('Accepted sandbox submission.').waitFor();
             const reused = await fetch(liveCustomer, {
                 method: 'POST',

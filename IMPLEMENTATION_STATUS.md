@@ -1,5 +1,29 @@
 # Implementation status
 
+## 0.4.0
+
+| Area | Implemented |
+| --- | --- |
+| CAPTCHA | Manual, automatic on-submit, and adaptive modes. Adaptive falls back to a visible control when the site's pending challenge count reaches the threshold. Existing verification scopes, expiry, origin checks, and one-time consumption apply to every mode. |
+| Risk policies | Generic, account, API, fraud, and automation assessments with versioned tenant policies, observe/enforce decisions, feedback, 30-day retention, and a scoped event list. Customers can load a prior revision and publish its settings as a new version. |
+| Automation and alerts | Registered site automation keys and separately recorded self-declarations. The Protection Events page shows recent tenant-local velocity and customer-reported abuse alerts. |
+| Billing | Published plan catalog, gateway-specific prices, tenant checkout choice, server-signed checkout quotes, immutable invoice and allowance terms, and invoice CSV. The administrator still chooses which payment providers and single SMS provider are active. |
+| Organization | Verified-email, one-use invitation codes, role management, password-confirmed ownership transfer, and an owner-only bounded team and audit JSON export. |
+| Operations and integration | Scheduler heartbeat and operator status, a CLI mail delivery check, Node.js verification SDK, refreshed OpenAPI and Postman builds, and a new shared-host distribution. |
+
+### Verification
+
+- **77 tests and 1,134 assertions** passed on MariaDB 13.0.2 with PHP 8.5.8, using 101 MB peak PHP test memory. The suite includes InnoDB concurrency, tenant and scope isolation, the billing catalog, mocked provider responses, policy decisions and alerts, team management, and the mail command with an in-memory transport. Pint passed.
+- The shared-host ZIP upgraded a private database initialized by 0.3.0. The organization, site and credential, Stripe invoice, Twilio receipt, and provider selection were preserved. Production-configuration preflight, config and view cache, the scheduled heartbeat, and the new cleanup commands passed with fixture settings.
+- A single headless Chromium session verified an automatic cross-origin submission through the packaged Laravel application, MariaDB and the PHP consumer. Missing and replayed tokens were rejected. A separate browser fixture in the same session covered manual fallback, keyboard operation, Persian directionality, token expiration and strict CSP.
+- Eight Node.js verifier tests passed. Offline npm and Composer installs exercised the browser, Node.js and PHP packages. OpenAPI references, Postman request paths and collection variables were checked against the generated contract.
+
+### Remaining production gates
+
+- **Live infrastructure** requires the intended host to pass HTTPS and proxy validation, real mail delivery, scheduled cleanup, backup and restore, and capacity measurements. Independently review the challenge protocol and accessibility before commercial rollout.
+- **Providers** require approved merchant accounts and messaging credentials to run the end-to-end checkout and OTP tests on the intended host. Recurring collections, in-app refunds, and SMS carrier callbacks remain open.
+- **Product backlog** includes alternative CAPTCHA providers, broader browser and CMS workflows, advanced fraud review and crawler controls, off-platform alerts, additional SDKs and localization, enterprise entitlements, SSO, and edge or HA profiles. [Requirements traceability](REQUIREMENTS_TRACEABILITY.md)
+
 ## 0.3.0 provider selection
 
 - **Provider settings** at `/admin/provider-settings` lets MFA-protected operators enable zero, one or both payment gateways and select Kavenegar, Twilio or Disabled for SMS. Saving requires current-password confirmation and is audited. Legacy environment flags provide defaults until the first explicit save.
@@ -15,20 +39,13 @@
 - MariaDB 13.0.2 ran 42 tests and 521 assertions with 95 MB peak PHP test memory. This includes the core InnoDB race test and fixture coverage for payment replay, billing isolation, allowance changes, SMS timeouts, oversized responses and duplicate sends. The prior release's MariaDB schema upgraded successfully with its fixture tenant preserved, and provider preflight passed against synthetic configuration.
 - The patched application uses Laravel 13.44.1, Filament 5.12.0 and Livewire 4.4.10. The fresh advisory feed returned data for all 139 locked packages and Composer's version matcher found zero applicable advisories. [Packagist advisory API](https://packagist.org/apidoc#list-security-advisories)
 
-Automated recurring payments, refunds inside Shield, multiple plan tiers, and carrier delivery callbacks remain outside this application checkpoint.
+Automated recurring payments, refunds inside Shield, multiple plan tiers, and carrier delivery callbacks were outside the 0.2.0 checkpoint.
 
 ## 0.1.0 core checkpoint
 
 The working application includes customer and operator Filament panels, tenant-scoped sites and credentials, a standalone checkbox proof-of-work widget, one-time backend verification, fixed-window abuse controls, SMS pre-send decisions, customer activity counts, a public English/Persian quick start and package downloads. The PHP consumer runs on a separate origin and gates its form submission on the verification API. The site playground previews the browser step using a configured sandbox key.
 
-| Tier | State | Remaining release criteria |
-| --- | --- | --- |
-| P0 | Partial | Host-specific HTTPS/SMTP/cron exercise, pilot capacity and accessibility review, independently reviewed provider design, broader usage/policy UI, and remaining WordPress surface validation. |
-| P1 | Partial | Adaptive/invisible and alternative providers, account/API services, configurable risk rules, feedback, alerts, broader billing workflows, full panel localization and SDK expansion. |
-| P2 | Pending | Fraud, scraper and agent policies, enterprise teams and branding, advanced entitlements and data governance. A baseline shared-host bundle is provided. |
-| P3 | Pending | Optional profiles for edge, Redis, HA, SSO and calibrated risk. |
-
-## Local evidence
+### 0.1.0 local evidence
 
 - Composer resolved the PHP 8.3 platform to Laravel 13.31.0, Filament 5.7.6 and Livewire 4.4.2. Actual CLI checks used PHP 8.5.8. Live Packagist metadata requests timed out while downloading the locked upstream packages succeeded. No fresh online advisory audit was completed.
 - `DB_CONNECTION=mysql DB_DATABASE=shield_test ... php vendor/bin/phpunit --no-progress` passed **19 tests and 284 assertions** against MariaDB 13.0.2 with 83 MB peak PHP memory. The two-worker race test allowed exactly one successful solve and one token consume. The suite also covered tenant isolation, audit, scoped keys, domain proof fixtures, CORS, quotas, SMS and public routes.

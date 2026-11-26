@@ -6,7 +6,8 @@
 - Versioned protection policies, opt-in enforcement, tenant-scoped decisions and feedback, and registered automation credentials.
 - Operator-managed billing plan catalog with independent gateway prices, immutable checkout terms, and tenant invoice CSV export.
 - Verified-email organization invitations, explicit ownership transfer and an owner-only team and audit export.
-- Persistent scheduler heartbeat and corresponding operator dashboard status.
+- Persistent scheduler heartbeat, operator dashboard status, and a CLI mail delivery check.
+- Dependency-free Node.js verification SDK, available as an offline npm archive.
 
 ## 0.3.0
 

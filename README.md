@@ -34,7 +34,7 @@ The screenshots show the running application with synthetic demo data and exampl
 | Billing | Operator-managed plans, tenant invoice CSV export, and hosted checkout through Stripe and ZarinPal. Operators can enable either or both gateways, and customers choose at checkout. Verified production payments grant a fixed verification term with manual renewals. |
 | SMS Shield | Assess destination velocity using hashed input or submit a rate-checked OTP to the selected provider. Operators select Kavenegar, Twilio, or Disabled for the whole deployment. Each sending site uses its own provider credentials. |
 | Operator controls | A dedicated MFA-protected panel with provider settings, invoice lookup, scheduler status, and an audit trail for settings changes. Deselecting a payment gateway stops new checkouts while preserving verification of existing invoices. |
-| Integrations | JavaScript widget, PHP verification SDK, WordPress and classic WooCommerce hooks, OpenAPI and Postman collections, and a runnable PHP consumer. |
+| Integrations | JavaScript widget, PHP and Node.js verification SDKs, WordPress and classic WooCommerce hooks, OpenAPI and Postman collections, and a runnable PHP consumer. |
 
 Configure credentials before enabling providers at `/admin/provider-settings`. The provider guide covers supported destinations, webhook configuration, and event replay behavior. [Provider setup](docs/providers.md)
 
@@ -126,7 +126,7 @@ node scripts/build-releases.mjs --check
 | Reference | Contents |
 | --- | --- |
 | [OpenAPI](openapi/v1.yaml) and [Postman collection](openapi/shield-captcha-v1.postman_collection.json) | Challenge, verification, policy assessments, feedback, and SMS contracts. |
-| [Protection guide](docs/protection.md) | Policy publication, decision handling, automation credentials, and feedback. |
+| [Protection guide](docs/protection.md) and [Node.js SDK](packages/sdk/node) | Policy publication, decision handling, automation credentials, feedback, and server-side token verification. |
 | [Provider setup](docs/providers.md) | Stripe and ZarinPal checkout, Twilio and Kavenegar provisioning, and reconciliation. |
 | [Security model](SECURITY_MODEL.md) and [privacy inventory](PRIVACY_DATA_INVENTORY.md) | Trust boundaries, data retention, and operational risk. |
 | [Incident runbook](INCIDENT_RUNBOOK.md) and [vulnerability reporting](SECURITY.md) | Operational response and security contact guidance. |

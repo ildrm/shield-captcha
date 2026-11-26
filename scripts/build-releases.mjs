@@ -126,6 +126,23 @@ try {
         path: 'sdk/javascript/shield-captcha-widget-' + browserVersion + '.tgz', version: browserVersion,
     }, join(temp, npmPackage.filename));
 
+    const serverJs = join(temp, 'verify-node');
+    const nodeSdk = 'packages/sdk/node/';
+    stage(serverJs, {
+        'index.cjs': nodeSdk + 'index.cjs',
+        'index.d.ts': nodeSdk + 'index.d.ts',
+        'package.json': nodeSdk + 'package.json',
+        'README.md': nodeSdk + 'README.md',
+        'LICENSE': 'LICENSE',
+    });
+    const [nodePackage] = JSON.parse(execFileSync('npm', [
+        'pack', '--offline', '--ignore-scripts', '--json', '--pack-destination', temp, '--cache', join(temp, 'npm-cache'),
+    ], { cwd: serverJs, encoding: 'utf8' }));
+    record({
+        id: 'verify-node', product: 'Node.js verification SDK', ecosystem: 'npm', category: 'sdk', type: 'source',
+        platforms: ['Node.js 22+'], path: 'sdk/node/shield-captcha-verify-' + version + '.tgz',
+    }, join(temp, nodePackage.filename));
+
     const php = join(temp, 'php');
     const sdk = 'packages/sdk/php/';
     const phpFiles = {

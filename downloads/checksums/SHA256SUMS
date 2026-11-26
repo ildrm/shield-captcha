@@ -1,5 +1,7 @@
 d00b38b8d6a6b2ac56cc4f69f83265649d7897a7b264eb08990c95b7064f555f  sdk/javascript/shield-captcha-widget-0.2.0.tgz
+0f33e15283ab6dbb74dc8d36b5ea45c1057aab1bc2700774b324b52f0d10a2ff  sdk/node/shield-captcha-verify-0.1.0.tgz
 930e4534a9e49b3426cf79b871e6029b71b0b2a89119cc0db886148f9d19721b  sdk/php/shield-captcha-php-0.1.0.zip
 40ca8a2979a9e9e2e6afe16b5d23deaef12c33fc7e7eb81d8b0f2503efe874fb  cms/wordpress/shield-captcha-wordpress-0.2.0.zip
 b5cea8e4274e633a7ef49975d00326d1761a9627602bebd09551566a11eaf761  examples/shield-captcha-openapi-v1-0.4.0.yaml
-b7bce5a5a8b41cb928034956f79e713af0b202406b20398b1a0796beddfaea41  examples/shield-captcha-postman-v1-0.4.0.json
+abff5e12e01b2b4dac695483699b2b1b21131655272a906a984ee5f1ac9d2a38  examples/shield-captcha-postman-v1-0.4.0.json
+b31eca3e0b9759c1ca0b10dff7eec7b898ae2e0aa865f4b0d7480dc14baf8005  self-hosted/shield-captcha-shared-host-0.4.0.zip

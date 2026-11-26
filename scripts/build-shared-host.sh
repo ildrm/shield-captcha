@@ -8,6 +8,7 @@ trap 'exit 1' HUP INT TERM
 
 app="$stage/shield-captcha"
 mkdir -p "$app/downloads" "$app/packages/sdk"
+cp "$root/downloads/README.md" "$app/downloads/README.md"
 
 for item in app bootstrap config database docs examples lang openapi public resources routes; do
     mkdir -p "$app/$item"
@@ -26,6 +27,10 @@ for file in .env.example artisan composer.json composer.lock LICENSE README.md D
 done
 
 cp -R "$root/packages/sdk/php" "$app/packages/sdk/"
+mkdir -p "$app/packages/sdk/node"
+for file in README.md package.json index.cjs index.d.ts; do
+    cp "$root/packages/sdk/node/$file" "$app/packages/sdk/node/$file"
+done
 node "$root/scripts/build-releases.mjs" --check
 
 # Embed a catalog of packages available within this edition.
@@ -41,6 +46,9 @@ node -e '
         fs.copyFileSync(path.join(from, entry.path), target);
     }
     fs.writeFileSync(path.join(to, "manifest.json"), JSON.stringify(data, null, 2) + "\n");
+    fs.mkdirSync(path.join(to, "checksums"), { recursive: true });
+    fs.writeFileSync(path.join(to, "checksums", "SHA256SUMS"),
+        data.artifacts.map((entry) => entry.sha256 + "  " + entry.path + "\n").join(""));
 ' "$root/downloads" "$app/downloads"
 
 (

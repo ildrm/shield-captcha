@@ -15,12 +15,22 @@ try {
     execFileSync('npm', [
         'install', '--offline', '--no-audit', '--ignore-scripts', '--cache', join(temp, 'npm-cache'),
         join(root, 'downloads/sdk/javascript/shield-captcha-widget-0.2.0.tgz'),
+        join(root, 'downloads/sdk/node/shield-captcha-verify-0.1.0.tgz'),
     ], { cwd: js, stdio: 'inherit' });
     const widget = join(js, 'node_modules/@shield-captcha/widget');
     execFileSync(process.execPath, ['--check', join(widget, 'widget.js')], { stdio: 'inherit' });
     for (const file of ['widget.js', 'widget.css']) {
         assert.deepEqual(readFileSync(join(widget, file)), readFileSync(join(root, 'public/assets/captcha/v1', file)));
     }
+    const nodeSmoke = [
+        "import assert from 'node:assert/strict';",
+        "import { Verifier } from '@shield-captcha/verify';",
+        "import { createRequire } from 'node:module';",
+        "assert.equal(createRequire(import.meta.url)('@shield-captcha/verify').Verifier, Verifier);",
+        "const verify = new Verifier('https://shield.example.test', 'sk_verify_' + 'b'.repeat(64));",
+        "assert.equal(await verify.verify('', 'invalid', 'contact', 'https://shop.example.test', 'sandbox'), false);",
+    ].join('\n');
+    execFileSync(process.execPath, ['--input-type=module', '-e', nodeSmoke], { cwd: js, stdio: 'inherit' });
 
     const php = join(temp, 'php');
     mkdirSync(php);

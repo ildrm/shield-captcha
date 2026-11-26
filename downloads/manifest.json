@@ -23,6 +23,27 @@
       "status": "built-unverified"
     },
     {
+      "id": "verify-node",
+      "product": "Node.js verification SDK",
+      "ecosystem": "npm",
+      "category": "sdk",
+      "type": "source",
+      "platforms": [
+        "Node.js 22+"
+      ],
+      "path": "sdk/node/shield-captcha-verify-0.1.0.tgz",
+      "filename": "shield-captcha-verify-0.1.0.tgz",
+      "size_bytes": 9745,
+      "sha256": "0f33e15283ab6dbb74dc8d36b5ea45c1057aab1bc2700774b324b52f0d10a2ff",
+      "version": "0.1.0",
+      "protocol": "v1",
+      "license": "GPL-2.0-only",
+      "released_at": "2026-11-26T00:00:00Z",
+      "docs_url": "/docs",
+      "visibility": "public",
+      "status": "built-unverified"
+    },
+    {
       "id": "verify-php",
       "product": "PHP verification SDK",
       "ecosystem": "Composer",
@@ -99,8 +120,30 @@
       "path": "examples/shield-captcha-postman-v1-0.4.0.json",
       "version": "0.4.0",
       "filename": "shield-captcha-postman-v1-0.4.0.json",
-      "size_bytes": 11153,
-      "sha256": "b7bce5a5a8b41cb928034956f79e713af0b202406b20398b1a0796beddfaea41",
+      "size_bytes": 11219,
+      "sha256": "abff5e12e01b2b4dac695483699b2b1b21131655272a906a984ee5f1ac9d2a38",
+      "protocol": "v1",
+      "license": "GPL-2.0-only",
+      "released_at": "2026-11-26T00:00:00Z",
+      "docs_url": "/docs",
+      "visibility": "public",
+      "status": "built-unverified"
+    },
+    {
+      "id": "shared-host",
+      "product": "Shared-hosting application",
+      "ecosystem": "Laravel",
+      "category": "self-hosted",
+      "version": "0.4.0",
+      "type": "distribution",
+      "platforms": [
+        "PHP 8.3+",
+        "MySQL or MariaDB"
+      ],
+      "path": "self-hosted/shield-captcha-shared-host-0.4.0.zip",
+      "filename": "shield-captcha-shared-host-0.4.0.zip",
+      "size_bytes": 25370762,
+      "sha256": "b31eca3e0b9759c1ca0b10dff7eec7b898ae2e0aa865f4b0d7480dc14baf8005",
       "protocol": "v1",
       "license": "GPL-2.0-only",
       "released_at": "2026-11-26T00:00:00Z",
