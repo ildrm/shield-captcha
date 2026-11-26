@@ -1,4 +1,4 @@
-# Shield CAPTCHA
+# Shield CAPTCHA — Privacy-First, Self-Hosted CAPTCHA & Bot Protection
 
 **Self-hosted CAPTCHA, risk assessment, and SMS abuse controls for web applications.**
 
