@@ -1,0 +1,57 @@
+name: Shield CAPTCHA core
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    services:
+      mariadb:
+        image: mariadb:11.4
+        env:
+          MARIADB_RANDOM_ROOT_PASSWORD: "1"
+          MARIADB_DATABASE: shield_test
+          MARIADB_USER: shield_test
+          MARIADB_PASSWORD: shield-ci-fixture
+        ports:
+          - 3306/tcp
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=2s
+          --health-timeout=5s
+          --health-retries=20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: "8.3"
+          extensions: intl, mbstring, zip, pdo_mysql, pdo_sqlite, pcntl
+          tools: composer:v2
+          coverage: none
+      - name: Install and check locked dependencies
+        run: |
+          composer validate --no-check-publish
+          composer install --no-plugins --no-scripts --prefer-dist --no-interaction --no-progress
+          composer check-platform-reqs
+          composer audit --locked
+      - name: Run PHP and MariaDB protocol tests
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+          DB_DATABASE: shield_test
+          DB_USERNAME: shield_test
+          DB_PASSWORD: shield-ci-fixture
+        run: |
+          php vendor/bin/pint --test app routes tests bootstrap/app.php bootstrap/providers.php examples/php-consumer/index.php lang
+          php vendor/bin/phpunit --no-progress
+          node scripts/build-releases.mjs --check

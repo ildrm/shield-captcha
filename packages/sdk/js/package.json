@@ -1,0 +1,9 @@
+{
+  "name": "@shield-captcha/widget",
+  "version": "0.2.0",
+  "description": "Standalone Shield CAPTCHA browser widget and types",
+  "private": false,
+  "license": "GPL-2.0-only",
+  "types": "widget.d.ts",
+  "files": ["widget.js", "widget.css", "widget.d.ts", "LICENSE", "README.md"]
+}

@@ -1,0 +1,838 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Shield CAPTCHA API",
+    "version": "0.1.0",
+    "description": "Early pilot of one-time verification and pre-send SMS assessment. The customer backend enforces results and owns send-level idempotency. A sandbox result is scoped to sandbox."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "paths": {
+    "/widget/config": {
+      "get": {
+        "operationId": "widgetConfiguration",
+        "summary": "Load safe widget configuration",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^https?://[a-z0-9.\\-\\[\\]:]{1,247}$"
+            }
+          },
+          {
+            "name": "site_key",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+            }
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WidgetConfig"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        }
+      }
+    },
+    "/challenges": {
+      "post": {
+        "operationId": "issueChallenge",
+        "summary": "Issue a bounded proof-of-work challenge",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^https?://[a-z0-9.\\-\\[\\]:]{1,247}$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Request completed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Challenge"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrowserRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/challenges/{id}/solve": {
+      "post": {
+        "operationId": "solveChallenge",
+        "summary": "Submit a solution and issue one token",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^https?://[a-z0-9.\\-\\[\\]:]{1,247}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolveResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolveRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/verify": {
+      "post": {
+        "operationId": "verifyToken",
+        "summary": "Authenticate and consume a token once",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Verified"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "serverSecret": []
+          }
+        ],
+        "description": "Use a server-only verify credential for this site."
+      }
+    },
+    "/sms/assess": {
+      "post": {
+        "operationId": "assessSms",
+        "summary": "Assess one SMS request before sending",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SmsAssessment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SmsRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "serverSecret": []
+          }
+        ],
+        "description": "Use a server-only assess credential for this site."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "serverSecret": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Site-scoped sk_verify_ or sk_assess_ credential."
+      }
+    },
+    "schemas": {
+      "BrowserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "site_key": {
+            "type": "string",
+            "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+          },
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          }
+        },
+        "required": [
+          "site_key",
+          "action"
+        ]
+      },
+      "WidgetConfig": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "site_key": {
+            "type": "string",
+            "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+          },
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "environment": {
+            "type": "string",
+            "enum": [
+              "sandbox",
+              "production"
+            ]
+          },
+          "modes": {
+            "type": "array",
+            "items": {
+              "const": "checkbox"
+            }
+          },
+          "provider": {
+            "const": "sha256-pow-v1"
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "site_key",
+          "action",
+          "environment",
+          "modes",
+          "provider",
+          "request_id"
+        ]
+      },
+      "Challenge": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "salt": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{32}$"
+          },
+          "challenge": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "max_number": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 12000
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "provider": {
+            "const": "sha256-pow-v1"
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id",
+          "salt",
+          "challenge",
+          "max_number",
+          "expires_at",
+          "provider",
+          "request_id"
+        ]
+      },
+      "SolveRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "site_key": {
+            "type": "string",
+            "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+          },
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "number": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 12000
+          }
+        },
+        "required": [
+          "site_key",
+          "action",
+          "number"
+        ]
+      },
+      "SolveResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "token",
+          "expires_at",
+          "request_id"
+        ]
+      },
+      "VerifyRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "site_key": {
+            "type": "string",
+            "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+          },
+          "token": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "expected_action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "expected_origin": {
+            "type": "string",
+            "pattern": "^https?://[a-z0-9.\\-\\[\\]:]{1,247}$"
+          },
+          "expected_environment": {
+            "type": "string",
+            "enum": [
+              "sandbox",
+              "production"
+            ]
+          }
+        },
+        "required": [
+          "site_key",
+          "token",
+          "expected_action",
+          "expected_origin",
+          "expected_environment"
+        ]
+      },
+      "Verified": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "const": true
+          },
+          "decision": {
+            "const": "allow"
+          },
+          "site_key": {
+            "type": "string",
+            "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+          },
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "origin": {
+            "type": "string",
+            "pattern": "^https?://[a-z0-9.\\-\\[\\]:]{1,247}$"
+          },
+          "environment": {
+            "type": "string",
+            "enum": [
+              "sandbox",
+              "production"
+            ]
+          },
+          "verified_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "success",
+          "decision",
+          "site_key",
+          "action",
+          "origin",
+          "environment",
+          "verified_at",
+          "request_id"
+        ]
+      },
+      "SmsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "site_key": {
+            "type": "string",
+            "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+          },
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "destination_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "event_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{16,64}$"
+          }
+        },
+        "required": [
+          "site_key",
+          "action",
+          "destination_hash",
+          "event_id"
+        ]
+      },
+      "SmsAssessment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "assessment_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "allow",
+              "throttle"
+            ]
+          },
+          "reason_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "within_limits",
+                "destination_velocity"
+              ]
+            }
+          },
+          "risk_score": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 100,
+            "enum": [
+              null,
+              60
+            ]
+          },
+          "policy_version": {
+            "const": 1
+          },
+          "retry_after": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "site_key": {
+            "type": "string",
+            "pattern": "^site_(test|prod)_[a-f0-9]{32}$"
+          },
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "environment": {
+            "type": "string",
+            "enum": [
+              "sandbox",
+              "production"
+            ]
+          }
+        },
+        "required": [
+          "assessment_id",
+          "decision",
+          "reason_codes",
+          "risk_score",
+          "policy_version",
+          "request_id",
+          "site_key",
+          "action",
+          "environment"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "const": false
+          },
+          "code": {
+            "type": "string"
+          },
+          "retry_after": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "success",
+          "code",
+          "request_id"
+        ]
+      }
+    },
+    "responses": {
+      "Error400": {
+        "description": "Invalid JSON.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error401": {
+        "description": "Invalid server credential.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error403": {
+        "description": "Context prohibited or disabled.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error404": {
+        "description": "Challenge or site unavailable.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error409": {
+        "description": "Operation already completed or conflicting.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error410": {
+        "description": "Challenge or token expired.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error413": {
+        "description": "Request exceeds 4096 bytes.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error415": {
+        "description": "Content-Type must be application/json.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error422": {
+        "description": "Invalid request, solution or token.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error429": {
+        "description": "Rate, attempt or quota limit reached.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error503": {
+        "description": "Service unavailable.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

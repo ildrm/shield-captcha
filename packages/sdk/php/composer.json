@@ -1,0 +1,16 @@
+{
+    "name": "shield-captcha/verify",
+    "description": "Server-side verification for Shield CAPTCHA API v1",
+    "version": "0.1.0",
+    "type": "library",
+    "license": "GPL-2.0-only",
+    "require": {
+        "php": "^8.3",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ShieldCaptcha\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,48 @@
+.widget {
+    color-scheme: light;
+    display: grid;
+    justify-items: start;
+    gap: .35rem;
+    max-inline-size: 100%;
+    font: 400 1rem/1.45 system-ui, sans-serif;
+}
+
+.widget[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+    .widget[data-theme="auto"] {
+        color-scheme: dark;
+    }
+}
+
+button {
+    border: .1rem solid currentColor;
+    border-radius: .5rem;
+    background: Canvas;
+    color: CanvasText;
+    padding: .55rem .9rem;
+    font: inherit;
+    font-weight: 650;
+    min-block-size: 2.75rem;
+    max-inline-size: 100%;
+    cursor: pointer;
+}
+
+button:focus-visible {
+    outline: .2rem solid Highlight;
+    outline-offset: .15rem;
+}
+
+.widget[data-state="working"] button,
+.widget[data-state="ready"] button {
+    cursor: default;
+}
+
+p {
+    background: Canvas;
+    color: CanvasText;
+    margin: 0;
+    font-size: .875rem;
+}

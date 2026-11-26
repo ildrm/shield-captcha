@@ -1,0 +1,428 @@
+{
+  "info": {
+    "name": "Shield CAPTCHA API v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Use your own sandbox site and origin. Use the local widget to obtain a solution/token. Keep server secrets in local values. The SMS delivery request is for an explicitly provisioned production site and may incur a real charge when populated."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "origin",
+      "value": "http://127.0.0.1:8001"
+    },
+    {
+      "key": "siteKey",
+      "value": ""
+    },
+    {
+      "key": "action",
+      "value": "contact"
+    },
+    {
+      "key": "challengeId",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "verifySecret",
+      "value": ""
+    },
+    {
+      "key": "assessSecret",
+      "value": ""
+    },
+    {
+      "key": "eventId",
+      "value": ""
+    },
+    {
+      "key": "destinationHash",
+      "value": ""
+    },
+    {
+      "key": "smsSendSecret",
+      "value": ""
+    },
+    {
+      "key": "smsSiteKey",
+      "value": ""
+    },
+    {
+      "key": "smsDestination",
+      "value": ""
+    },
+    {
+      "key": "smsOtp",
+      "value": ""
+    },
+    {
+      "key": "protectionSecret",
+      "value": ""
+    },
+    {
+      "key": "protectionEventId",
+      "value": ""
+    },
+    {
+      "key": "subjectHash",
+      "value": ""
+    },
+    {
+      "key": "assessmentId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Widget configuration",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/widget/config?site_key={{siteKey}}&action={{action}}",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{origin}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Resolve managed widget settings",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/widget/config",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{origin}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Issue challenge",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/challenges",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{origin}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Solve challenge",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/challenges/{{challengeId}}/solve",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "{{origin}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"number\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Replace the number with the solution for this challenge from the owned widget test."
+      }
+    },
+    {
+      "name": "Verify and consume",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/verify",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"token\": \"{{token}}\",\n  \"expected_action\": \"{{action}}\",\n  \"expected_origin\": \"{{origin}}\",\n  \"expected_environment\": \"sandbox\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{verifySecret}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Assess SMS",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/sms/assess",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"event_id\": \"{{eventId}}\",\n  \"destination_hash\": \"{{destinationHash}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{assessSecret}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Production OTP delivery",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/sms/send",
+        "description": "Requires the active SMS provider to be provisioned for the site. The administrator selects the provider. Use one logical event ID per send.",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{smsSiteKey}}\",\n  \"action\": \"{{action}}\",\n  \"event_id\": \"{{eventId}}\",\n  \"destination\": \"{{smsDestination}}\",\n  \"otp\": \"{{smsOtp}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{smsSendSecret}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Assess a registered operation",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/assessments",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{protectionSecret}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"environment\": \"{{environment}}\",\n  \"event_id\": \"{{protectionEventId}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Assess an account operation",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/accounts/assess",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{protectionSecret}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"environment\": \"{{environment}}\",\n  \"event_id\": \"{{protectionEventId}}\",\n  \"subject_hash\": \"{{subjectHash}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Assess an API operation",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/api-protection/assess",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{protectionSecret}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"environment\": \"{{environment}}\",\n  \"event_id\": \"{{protectionEventId}}\",\n  \"subject_hash\": \"{{subjectHash}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Assess transaction velocity",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/fraud/assess",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{protectionSecret}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"environment\": \"{{environment}}\",\n  \"event_id\": \"{{protectionEventId}}\",\n  \"subject_hash\": \"{{subjectHash}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Assess automated traffic",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/bots/assess",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{protectionSecret}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"environment\": \"{{environment}}\",\n  \"event_id\": \"{{protectionEventId}}\",\n  \"declares_automation\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Label a retained assessment",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/feedback",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{protectionSecret}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"site_key\": \"{{siteKey}}\",\n  \"action\": \"{{action}}\",\n  \"environment\": \"{{environment}}\",\n  \"assessment_id\": \"{{assessmentId}}\",\n  \"label\": \"unknown\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

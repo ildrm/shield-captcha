@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "id": "widget-js",
+      "product": "Browser widget and TypeScript types",
+      "ecosystem": "npm",
+      "category": "sdk",
+      "type": "source",
+      "platforms": [
+        "Browsers with Web Workers and Web Crypto"
+      ],
+      "path": "sdk/javascript/shield-captcha-widget-0.2.0.tgz",
+      "version": "0.2.0",
+      "filename": "shield-captcha-widget-0.2.0.tgz",
+      "size_bytes": 13623,
+      "sha256": "d00b38b8d6a6b2ac56cc4f69f83265649d7897a7b264eb08990c95b7064f555f",
+      "protocol": "v1",
+      "license": "GPL-2.0-only",
+      "released_at": "2026-11-26T00:00:00Z",
+      "docs_url": "/docs",
+      "visibility": "public",
+      "status": "built-unverified"
+    },
+    {
+      "id": "verify-php",
+      "product": "PHP verification SDK",
+      "ecosystem": "Composer",
+      "category": "sdk",
+      "type": "source",
+      "platforms": [
+        "PHP 8.3+ with cURL"
+      ],
+      "path": "sdk/php/shield-captcha-php-0.1.0.zip",
+      "filename": "shield-captcha-php-0.1.0.zip",
+      "size_bytes": 10199,
+      "sha256": "930e4534a9e49b3426cf79b871e6029b71b0b2a89119cc0db886148f9d19721b",
+      "version": "0.1.0",
+      "protocol": "v1",
+      "license": "GPL-2.0-only",
+      "released_at": "2026-11-26T00:00:00Z",
+      "docs_url": "/docs",
+      "visibility": "public",
+      "status": "built-unverified"
+    },
+    {
+      "id": "plugin-wordpress",
+      "product": "WordPress and WooCommerce plugin",
+      "ecosystem": "WordPress",
+      "category": "cms",
+      "type": "source",
+      "platforms": [
+        "WordPress 6.6+ target",
+        "Classic WooCommerce login and registration target",
+        "PHP 8.3+"
+      ],
+      "path": "cms/wordpress/shield-captcha-wordpress-0.2.0.zip",
+      "version": "0.2.0",
+      "filename": "shield-captcha-wordpress-0.2.0.zip",
+      "size_bytes": 17969,
+      "sha256": "40ca8a2979a9e9e2e6afe16b5d23deaef12c33fc7e7eb81d8b0f2503efe874fb",
+      "protocol": "v1",
+      "license": "GPL-2.0-only",
+      "released_at": "2026-11-26T00:00:00Z",
+      "docs_url": "/docs",
+      "visibility": "public",
+      "status": "built-unverified"
+    },
+    {
+      "id": "openapi-v1",
+      "product": "OpenAPI schema",
+      "ecosystem": "OpenAPI",
+      "category": "examples",
+      "type": "source",
+      "platforms": [
+        "API v1"
+      ],
+      "path": "examples/shield-captcha-openapi-v1-0.4.0.yaml",
+      "version": "0.4.0",
+      "filename": "shield-captcha-openapi-v1-0.4.0.yaml",
+      "size_bytes": 45519,
+      "sha256": "b5cea8e4274e633a7ef49975d00326d1761a9627602bebd09551566a11eaf761",
+      "protocol": "v1",
+      "license": "GPL-2.0-only",
+      "released_at": "2026-11-26T00:00:00Z",
+      "docs_url": "/docs",
+      "visibility": "public",
+      "status": "built-unverified"
+    },
+    {
+      "id": "postman-v1",
+      "product": "Postman collection",
+      "ecosystem": "Postman",
+      "category": "examples",
+      "type": "source",
+      "platforms": [
+        "API v1"
+      ],
+      "path": "examples/shield-captcha-postman-v1-0.4.0.json",
+      "version": "0.4.0",
+      "filename": "shield-captcha-postman-v1-0.4.0.json",
+      "size_bytes": 11153,
+      "sha256": "b7bce5a5a8b41cb928034956f79e713af0b202406b20398b1a0796beddfaea41",
+      "protocol": "v1",
+      "license": "GPL-2.0-only",
+      "released_at": "2026-11-26T00:00:00Z",
+      "docs_url": "/docs",
+      "visibility": "public",
+      "status": "built-unverified"
+    }
+  ]
+}
